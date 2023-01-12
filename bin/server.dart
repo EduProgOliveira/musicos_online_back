@@ -1,12 +1,14 @@
+import 'package:musicos_online_back/api/login_api.dart';
+import 'package:musicos_online_back/api/user_api.dart';
+import 'package:musicos_online_back/infra/custom_server.dart';
+import 'package:musicos_online_back/service/user_service.dart';
 import 'package:shelf/shelf.dart';
 
-import 'api/login_api.dart';
-import 'api/user_api.dart';
-import 'infra/custom_server.dart';
-
 void main(List<String> args) async {
-  var cascadeHandler =
-      Cascade().add(LoginApi().handler).add(UserApi().handler).handler;
+  var cascadeHandler = Cascade()
+      .add(LoginApi().handler)
+      .add(UserApi(UserService()).handler)
+      .handler;
 
   var pipeline =
       Pipeline().addMiddleware(logRequests()).addHandler(cascadeHandler);
