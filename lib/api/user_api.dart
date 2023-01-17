@@ -10,7 +10,7 @@ class UserApi extends Api {
   UserApi(this._service);
 
   @override
-  Handler getHandler({List<Middleware>? middlewares}) {
+  Handler getHandler({List<Middleware>? middlewares, bool isSecurity = false}) {
     Router router = Router();
     router.post('/user/create', (Request request) async {
       UserModel user = await _service.save(UserModel(
@@ -31,6 +31,7 @@ class UserApi extends Api {
       return Response.ok('User Update');
     });
 
-    return createHandler(router: router, middlewares: middlewares);
+    return createHandler(
+        router: router, middlewares: middlewares, isSecurity: isSecurity);
   }
 }
