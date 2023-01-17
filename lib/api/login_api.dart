@@ -1,12 +1,21 @@
+import 'package:musicos_online_back/api/api.dart';
+import 'package:musicos_online_back/infra/security/security_service.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-class LoginApi {
-  Handler get handler {
+class LoginApi extends Api {
+  final SecurityService _securityService;
+
+  LoginApi(this._securityService);
+
+  @override
+  Handler getHandler({List<Middleware>? middlewares}) {
     Router router = Router();
-    router.post('/login', (Request request) {
-      return Response.ok('Login');
+    router.post('/login', (Request request) async {
+      var token = await _securityService.generateJWT('1');
+      var resp = _securityService.validateJWT(token);
+      return Response.ok(token);
     });
-    return router;
+    return createHandler(router: router, middlewares: middlewares);
   }
 }
