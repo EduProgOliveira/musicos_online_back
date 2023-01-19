@@ -15,4 +15,4 @@ services:
       MYSQL_ROOT_PASSWORD: dev123
       MYSQL_DATABASE: musicos_online
     volumes:
-      - ./.mysql_data:/var/lib/mysql
+      - ../mysql_data:/var/lib/mysql
