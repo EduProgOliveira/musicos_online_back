@@ -1,5 +1,6 @@
 import 'package:musicos_online_back/api/login_api.dart';
 import 'package:musicos_online_back/api/user_api.dart';
+import 'package:musicos_online_back/dao/user_dao.dart';
 import 'package:musicos_online_back/infra/database/i_db_configuration.dart';
 import 'package:musicos_online_back/infra/database/mysql_db_configuration.dart';
 import 'package:musicos_online_back/infra/dependency_injector/dependency_injector.dart';

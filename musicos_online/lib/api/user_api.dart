@@ -13,13 +13,6 @@ class UserApi extends Api {
   Handler getHandler({List<Middleware>? middlewares, bool isSecurity = false}) {
     Router router = Router();
     router.post('/user/create', (Request request) async {
-      UserModel user = await _service.save(UserModel(
-        id: 1,
-        userLogin: 'userLogin',
-        userPassword: 'userPassword',
-        dateCreated: 'dateCreated',
-        dateUpdated: 'dateUpdated',
-      ));
       return Response.ok('User Create');
     });
 
