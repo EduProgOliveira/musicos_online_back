@@ -7,28 +7,41 @@ class UserDao implements IDao<UserModel> {
 
   UserDao(this._dbConfiguration);
   @override
-  Future create(value) async {
-    // TODO: implement create
-    throw UnimplementedError();
+  Future<bool> create(UserModel value) async {
+    var result = await _query(
+      query:
+          'insert into user_system (user_name,user_email,user_password) values (?,?,?)',
+      params: [value.userName, value.userEmail, value.userPassword],
+    );
+    return result.affectedRows > 0;
   }
 
   @override
-  Future delete(int id) async {
+  Future<bool> delete(int id) async {
     // TODO: implement delete
     throw UnimplementedError();
   }
 
   @override
-  Future<UserModel> findOne(int id) async {
-    var connection = await _dbConfiguration.connection;
-    final String query = 'select * from user_system where user_id = ?';
-    var result = await connection.query(query, [id]);
-    return UserModel.fromMap(result.first.fields);
+  Future<UserModel?> findOne(int id) async {
+    var result = await _query(
+        query: 'select * from user_system where user_id = ?', params: [id]);
+    return result.affectedRows == 0
+        ? null
+        : UserModel.fromMap(result.first.fields);
   }
 
   @override
-  Future update(value) async {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<bool> update(UserModel value) async {
+    var result = await _query(
+        query:
+            'update user_system set user_name = ?,user_email = ? where id = ?',
+        params: [value.userName, value.userEmail, value.userId]);
+    return result.affectedRows > 0;
+  }
+
+  _query({required String query, List? params}) async {
+    var connection = await _dbConfiguration.connection;
+    return await connection.query(query, params);
   }
 }

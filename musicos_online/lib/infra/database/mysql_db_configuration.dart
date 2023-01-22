@@ -2,14 +2,11 @@ import 'package:musicos_online_back/infra/database/i_db_configuration.dart';
 import 'package:mysql1/mysql1.dart';
 
 class MysqlDbConfiguration implements IDbConfiguration {
-  static MySqlConnection? _instance;
+  MySqlConnection? _connection;
 
-  MysqlDbConfiguration() {
-    _createConnection();
-  }
-
-  _createConnection() async {
-    return _instance = await MySqlConnection.connect(ConnectionSettings(
+  @override
+  Future<MySqlConnection> createConnection() async {
+    return await MySqlConnection.connect(ConnectionSettings(
       host: 'localhost',
       port: 3306,
       db: 'musicos_online',
@@ -19,5 +16,8 @@ class MysqlDbConfiguration implements IDbConfiguration {
   }
 
   @override
-  Future get connection async => _instance ?? await _createConnection();
+  Future<MySqlConnection> get connection async {
+    _connection ??= await createConnection();
+    return _connection!;
+  }
 }

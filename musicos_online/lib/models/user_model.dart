@@ -1,28 +1,36 @@
 class UserModel {
-  final int id;
-  final String userName;
-  final String email;
-  final bool isActive;
-  final DateTime dateCreated;
-  final DateTime dateUpdated;
+  int? userId;
+  String? userName;
+  String? userEmail;
+  String? userPassword;
+  bool? userIsActive;
+  DateTime? userDateCreated;
+  DateTime? userDateUpdated;
 
   UserModel({
-    required this.id,
-    required this.userName,
-    required this.email,
-    required this.isActive,
-    required this.dateCreated,
-    required this.dateUpdated,
+    this.userId,
+    this.userName,
+    this.userEmail,
+    this.userIsActive,
+    this.userDateCreated,
+    this.userDateUpdated,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['user_id'] as int,
+      userId: map['user_userId'] as int,
       userName: map['user_name'] as String,
-      email: map['user_email'] as String,
-      isActive: map['user_active'] == 1,
-      dateCreated: map['user_date_created'],
-      dateUpdated: map['user_date_updated'],
+      userEmail: map['user_email'] as String,
+      userIsActive: map['user_active'] == 1,
+      userDateCreated: map['user_date_created'],
+      userDateUpdated: map['user_date_updated'],
     );
+  }
+
+  factory UserModel.fromRequest(Map<String, dynamic> map) {
+    return UserModel()
+      ..userName = map['user_name'] as String
+      ..userEmail = map['user_email'] as String
+      ..userPassword = map['user_password'] as String;
   }
 }

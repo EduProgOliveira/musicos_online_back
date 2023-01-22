@@ -1,6 +1,6 @@
 abstract class IDao<T> {
-  Future create(T value);
-  Future update(T value);
-  Future<T> findOne(int id);
-  Future delete(int id);
+  Future<bool> create(T value);
+  Future<bool> update(T value);
+  Future<T?> findOne(int id);
+  Future<bool> delete(int id);
 }
