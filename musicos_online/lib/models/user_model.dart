@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class UserModel {
   int? userId;
   String? userName;
@@ -18,7 +20,7 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      userId: map['user_userId'] as int,
+      userId: map['user_id'] as int,
       userName: map['user_name'] as String,
       userEmail: map['user_email'] as String,
       userIsActive: map['user_active'] == 1,
@@ -33,4 +35,17 @@ class UserModel {
       ..userEmail = map['user_email'] as String
       ..userPassword = map['user_password'] as String;
   }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'userId': userId,
+      'userName': userName,
+      'userEmail': userEmail,
+      'userIsActive': userIsActive,
+      'userDateCreated': userDateCreated?.millisecondsSinceEpoch,
+      'userDateUpdated': userDateUpdated?.millisecondsSinceEpoch,
+    };
+  }
+
+  String toJson() => json.encode(toMap());
 }

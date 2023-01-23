@@ -6,7 +6,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 class UserApi extends Api {
-  final IGenericService _service;
+  final IGenericService<UserModel> _service;
 
   UserApi(this._service);
 
@@ -23,12 +23,17 @@ class UserApi extends Api {
     });
 
     router.get('/user', (Request request) async {
-      var body = await request.readAsString();
-      if (body.isEmpty) return Response(400);
-      var result =
-          await _service.create(UserModel.fromRequest(jsonDecode(body)));
+      if (request.requestedUri.queryParameters['id'] == null) {
+        return Response(400);
+      }
 
-      return result ? Response(201) : Response(500);
+      int id = int.parse(request.requestedUri.queryParameters['id']!);
+
+      var result = await _service.findOne(id);
+
+      return result != null
+          ? Response(200, body: result.toJson())
+          : Response(500);
     });
 
     router.put('/user', (Request request) {

@@ -8,7 +8,8 @@ class UserService implements IGenericService<UserModel> {
   UserService(this._userDao);
   @override
   Future<UserModel?> findOne(int id) async {
-    return await _userDao.findOne(id);
+    var result = await _userDao.findOne(id);
+    return result;
   }
 
   @override

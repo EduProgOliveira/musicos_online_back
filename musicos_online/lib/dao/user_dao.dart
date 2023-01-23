@@ -26,9 +26,8 @@ class UserDao implements IDao<UserModel> {
   Future<UserModel?> findOne(int id) async {
     var result = await _query(
         query: 'select * from user_system where user_id = ?', params: [id]);
-    return result.affectedRows == 0
-        ? null
-        : UserModel.fromMap(result.first.fields);
+
+    return result.isEmpty ? null : UserModel.fromMap(result.first.fields);
   }
 
   @override
