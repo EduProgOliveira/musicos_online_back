@@ -17,15 +17,15 @@ CREATE TABLE
         `user_long` DOUBLE,
         `user_active` TINYINT DEFAULT 1,
         `user_premium` TINYINT DEFAULT 0,
-        `music_type_id` VARCHAR(255),
         `music_default_type_id` INT,
-        `musician_type_id` VARCHAR(255),
-        `musiccian_default_type_id` INT,
-        `instrument_type_id` VARCHAR(255),
+        `music_default_title` VARCHAR(255),
+        `musician_default_type_id` INT,
+        `musician_default_type_title` VARCHAR(255),
         `instrument_default_type_id` INT,
+        `instrument_default_type_title` VARCHAR(255),
         `user_date_created_at` datetime DEFAULT CURRENT_TIMESTAMP,
         `user_date_updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        `user_date_deleted_at` datetime DEFAULT CURRENT_TIMESTAMP,
+        `user_date_deleted_at` datetime,
         PRIMARY KEY (`user_id`)
     );
 
@@ -50,7 +50,7 @@ CREATE TABLE
         `post_id` INT NOT NULL AUTO_INCREMENT,
         `post_text` LONGTEXT NOT NULL,
         `post_date_created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-        `post_date_deleted_at` datetime DEFAULT CURRENT_TIMESTAMP,
+        `post_date_deleted_at` datetime,
         `user_id` INT NULL,
         PRIMARY KEY (`post_id`),
         FOREIGN KEY (`user_id`) REFERENCES `musicos_online`.`user_system` (`user_id`)
@@ -62,7 +62,7 @@ CREATE TABLE
         `chat_text` LONGTEXT NOT NULL,
         `chat_view` BOOLEAN DEFAULT FALSE,
         `chat_date_created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-        `chat_date_deleted_at` datetime DEFAULT CURRENT_TIMESTAMP,
+        `chat_date_deleted_at` datetime,
         `user_id` INT NOT NULL,
         `chat_user` INT NOT NULL,
         PRIMARY KEY (`chat_id`),
@@ -74,7 +74,7 @@ CREATE TABLE
     IF NOT EXISTS `musicos_online`.`comment`(
         `comment_id` INT NOT NULL AUTO_INCREMENT,
         `comment_date_created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-        `comment_date_deleted_at` datetime DEFAULT CURRENT_TIMESTAMP,
+        `comment_date_deleted_at` datetime,
         `comment_text` LONGTEXT NOT NULL,
         `user_id` INT NOT NULL,
         `post_id` INT NOT NULL,
@@ -97,15 +97,37 @@ CREATE TABLE
 CREATE TABLE
     IF NOT EXISTS `musicos_online`.`music_type`(
         `music_type_id` INT NOT NULL AUTO_INCREMENT,
-        `music_type_title` TEXT NOT NULL,
+        `music_type_title` VARCHAR(255) NOT NULL,
         PRIMARY KEY (`music_type_id`)
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS `musicos_online`.`music`(
+        `music_id` INT NOT NULL AUTO_INCREMENT,
+        `music_type_id` INT NOT NULL,
+        `music_type_title` VARCHAR(255) NOT NULL,
+        `user_id` INT NOT NULL,
+        PRIMARY KEY (`music_id`),
+        FOREIGN KEY (`user_id`) REFERENCES `musicos_online`.`user_system` (`user_id`),
+        FOREIGN KEY (`music_type_id`) REFERENCES `musicos_online`.`music_type` (`music_type_id`)
     ) ENGINE = INNODB;
 
 CREATE TABLE
     IF NOT EXISTS `musicos_online`.`musician_type`(
         `musician_type_id` INT NOT NULL AUTO_INCREMENT,
-        `musician_type_title` TEXT NOT NULL,
+        `musician_type_title` VARCHAR(255) NOT NULL,
         PRIMARY KEY (`musician_type_id`)
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS `musicos_online`.`musician`(
+        `musician_id` INT NOT NULL AUTO_INCREMENT,
+        `musician_type_id` INT NOT NULL,
+        `musician_type_title` VARCHAR(255) NOT NULL,
+        `user_id` INT NOT NULL,
+        PRIMARY KEY (`musician_id`),
+        FOREIGN KEY (`user_id`) REFERENCES `musicos_online`.`user_system` (`user_id`),
+        FOREIGN KEY (`musician_type_id`) REFERENCES `musicos_online`.`musician_type` (`musician_type_id`)
     ) ENGINE = INNODB;
 
 CREATE TABLE
@@ -113,6 +135,17 @@ CREATE TABLE
         `instrument_type_id` INT NOT NULL AUTO_INCREMENT,
         `instrument_type_title` TEXT NOT NULL,
         PRIMARY KEY (`instrument_type_id`)
+    ) ENGINE = INNODB;
+
+CREATE TABLE
+    IF NOT EXISTS `musicos_online`.`instrument`(
+        `instrument_id` INT NOT NULL AUTO_INCREMENT,
+        `instrument_type_id` INT NOT NULL,
+        `instrument_type_title` VARCHAR(255) NOT NULL,
+        `user_id` INT NOT NULL,
+        PRIMARY KEY (`instrument_id`),
+        FOREIGN KEY (`user_id`) REFERENCES `musicos_online`.`user_system` (`user_id`),
+        FOREIGN KEY (`instrument_type_id`) REFERENCES `musicos_online`.`instrument_type` (`instrument_type_id`)
     ) ENGINE = INNODB;
 
 CREATE TABLE
