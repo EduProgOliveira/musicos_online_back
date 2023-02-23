@@ -1,5 +1,5 @@
 # Use root/example as user/password credentials
-version: '3.3'
+version: '3.7'
 
 services:
   db:
@@ -16,4 +16,14 @@ services:
       MYSQL_DATABASE: musicos_online
     volumes:
       - ../mysql_data:/var/lib/mysql
-      - ../db.sql:/docker-entrypoint-initdb.d/1.sql
+      - ../db.sql:/docker-entrypoint-initdb.d/db.sql
+    networks:
+      - musicosonline
+
+volumes:
+  musicosonline-db:
+
+
+networks:
+  musicosonline:
+    driver: bridge

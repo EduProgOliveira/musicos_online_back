@@ -1,6 +1,5 @@
 import 'package:musicos_online_back/infra/dependency_injector/dependency_injector.dart';
 import 'package:musicos_online_back/infra/security/i_security_service.dart';
-import 'package:musicos_online_back/infra/security/security_service.dart';
 import 'package:shelf/shelf.dart';
 
 abstract class Api {
