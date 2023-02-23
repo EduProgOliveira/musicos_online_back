@@ -52,6 +52,7 @@ class UserModel {
 
   factory UserModel.fromRequest(Map<String, dynamic> map) {
     return UserModel()
+      ..userId = map['user_id']
       ..userName = map['user_name']
       ..userEmail = map['user_email']
       ..userPassword = map['user_password']
@@ -78,6 +79,32 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'user_id': userId,
+      'user_name': userName,
+      'user_email': userEmail,
+      'user_password': userPassword,
+      'user_username': userUserName,
+      'user_gender': userGender,
+      'user_biography': userBiography,
+      'user_state': userState,
+      'user_city': userCity,
+      'user_lat': userLat,
+      'user_long': userLong,
+      'user_active': userActive,
+      'user_premium': userPremium,
+      'music_type_id': musicDefaultTypeId,
+      'music_default_type_id': musicDefaultTypeTitle,
+      'musician_type_id': musicianDefaultTypeId,
+      'musician_default_type_id': musicianDefaultTypeTitle,
+      'instrument_type_id': instrumentDefaultTypeId,
+      'instrument_default_type_id': instrumentDefaultTypeTitle,
+      'user_date_created_at': userDateCreatedAt?.millisecondsSinceEpoch,
+      'user_date_updated_at': userDateUpdatedAt?.millisecondsSinceEpoch,
+      'user_date_deleted_at': userDateDeletedAt?.millisecondsSinceEpoch,
+    };
+  }
+
+  Map<String, dynamic> toUpdate() {
+    return <String, dynamic>{
       'user_name': userName,
       'user_email': userEmail,
       'user_password': userPassword,

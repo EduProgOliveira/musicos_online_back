@@ -31,11 +31,14 @@ class UserDao implements IDao<UserModel> {
   }
 
   @override
-  Future<bool> update(UserModel value) async {
+  Future<bool> update(Map<String, dynamic> params) async {
+    final data = params.values.toList().reversed.toList();
+    params.removeWhere((key, value) => key == 'user_id');
+    final columns = params.keys.map((key) => '$key=?').toList();
+
     var result = await _query(
-        query:
-            'update user_system set user_name = ?,user_email = ? where id = ?',
-        params: [value.userName, value.userEmail, value.userId]);
+        query: 'update user_system set ${columns.join(',')} where user_id = ?',
+        params: data);
     return result.affectedRows > 0;
   }
 

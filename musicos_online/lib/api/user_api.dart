@@ -36,8 +36,12 @@ class UserApi extends Api {
           : Response(500);
     });
 
-    router.put('/user', (Request request) {
-      return Response.ok('User Update');
+    router.put('/user', (Request request) async {
+      var body = await request.readAsString();
+      if (body.isEmpty) return Response(400);
+      var result =
+          await _service.create(UserModel.fromRequest(jsonDecode(body)));
+      return result ? Response(201) : Response(500);
     });
 
     return createHandler(
